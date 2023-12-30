@@ -28,10 +28,24 @@ bool checkEnemyCollision(Enemy enemy, ActiveBullet currentBullet) {
     }
 }
 
-bool checkEnemyCollision(Ship ship, ActiveBullet currentBullet) {
+void checkEnemyBulletHit(Enemy* enemy, Bullet* bullet) {
+    for(int i = 0; i < sizeof(bullet -> activeBullets) / sizeof(bullet -> activeBullets[0]); ++i) {
+        ActiveBullet currentBullet = bullet -> activeBullets[i];
+
+        if(currentBullet.active) {
+            if(checkEnemyCollision(*enemy, currentBullet)) {
+                enemy -> currentState = enemy -> DESTROYED;
+            }
+        }
+    }
+}
+
+bool checkPlayerCollision(Ship ship, EnemyActiveBullet currentBullet) {
+    // std::cout << currentBullet.position.x << "\t" << currentBullet.position.y << "\t" << ship.position.x << "\t" << ship.position.y << std::endl;
+
     if(
-        currentBullet.position.y > ship.position.y + ship.height &&
-        currentBullet.position.y + 10 < ship.position.y &&
+        currentBullet.position.y + 10 < ship.position.y + ship.height &&
+        currentBullet.position.y > ship.position.y &&
         currentBullet.position.x + 10 > ship.position.x &&
         currentBullet.position.x < ship.position.x + ship.width
     ) {
@@ -43,13 +57,14 @@ bool checkEnemyCollision(Ship ship, ActiveBullet currentBullet) {
     }
 }
 
-void checkBulletHit(Enemy* enemy, Bullet* bullet) {
+void checkPlayerBulletHit(Ship* ship, EnemyBullet* bullet) {
     for(int i = 0; i < sizeof(bullet -> activeBullets) / sizeof(bullet -> activeBullets[0]); ++i) {
-        ActiveBullet currentBullet = bullet -> activeBullets[i];
+        EnemyActiveBullet currentBullet = bullet -> activeBullets[i];
 
         if(currentBullet.active) {
-            if(checkEnemyCollision(*enemy, currentBullet)) {
-                enemy -> currentState = enemy -> DESTROYED;
+            if(checkPlayerCollision(*ship, currentBullet)) {
+                // enemy -> currentState = enemy -> DESTROYED;
+                std::cout << "PLAYER HIT" << std::endl;
             }
         }
     }
@@ -150,10 +165,12 @@ int main() {
 
         ship.bullet->render();
 
-        checkBulletHit(&enemy, ship.bullet);
+        checkEnemyBulletHit(&enemy, ship.bullet);
 
         if(enemy.currentState != enemy.DESTROYED) {
             enemy.bullet->render();
+
+            checkPlayerBulletHit(&ship, enemy.bullet);
         }
 
         glfwPollEvents();
