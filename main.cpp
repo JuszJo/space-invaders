@@ -127,6 +127,8 @@ int main() {
 
         ship.render();
 
+        enemy.update();
+        
         enemy.render();
 
         ship.bullet->render();

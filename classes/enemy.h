@@ -24,7 +24,7 @@ class Enemy {
 
         glm::vec3 speed = glm::vec3(0.0f, 0.0f, 0.0f);
 
-        float acceleration = 10.0;
+        float acceleration = 5.0f;
 
         glm::mat4 model = glm::mat4(1.0f);
 
@@ -46,6 +46,9 @@ class Enemy {
         Shader* myShader;
 
         // Bullet* bullet;
+
+        float sinI = 90.0f;
+        float sinOut;
 
         int shootBuffer = 10;
         int elapsedFrames = 0;
@@ -128,16 +131,21 @@ class Enemy {
         void stateChecker() {
             switch (currentState) {
                 case LEFT:
-                    speed = glm::vec3(-acceleration, 0.0f, 0.0f);
-
-                    break;
-
-                case RIGHT:
                     speed = glm::vec3(acceleration, 0.0f, 0.0f);
 
                     break;
 
+                case RIGHT:
+                    speed = glm::vec3(-acceleration, 0.0f, 0.0f);
+
+                    break;
+
                 case IDLE:
+                    speed = glm::vec3(0.0f, 0.0f, 0.0f);
+
+                    break;
+
+                case DESTROYED:
                     speed = glm::vec3(0.0f, 0.0f, 0.0f);
 
                     break;
@@ -184,10 +192,16 @@ class Enemy {
 
         void render() {
             if(currentState != DESTROYED) {
+                sinOut = sin(glm::radians(sinI));
+                // std::cout << sinOut << std::endl;
+
+                sinI += 2;
                 // glBindTexture(GL_TEXTURE_2D, TBO);
                 int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
 
                 glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+
+                std::cout << position.x << std::endl;
 
                 glBindVertexArray(VAO);
                 glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -195,10 +209,18 @@ class Enemy {
         };
 
         void update() {
-            // stateChecker();
+            if(currentState != DESTROYED) {
+                if(sinOut < 0.0f) {
+                    currentState = LEFT;
+                }
+                else {
+                    currentState = RIGHT;
+                }
 
-            // applySpeed();
+                stateChecker();
 
+                applySpeed();
+            }
             // checkWallCollision();
         };
 };
