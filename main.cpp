@@ -13,7 +13,7 @@
 #include "classes/enemy.h"
 #include "classes/bullet.h"
 
-bool checkEntityCollision(Enemy enemy, ActiveBullet currentBullet) {
+bool checkEnemyCollision(Enemy enemy, ActiveBullet currentBullet) {
     if(
         currentBullet.position.y + 10 > enemy.position.y - enemy.height &&
         currentBullet.position.y < enemy.position.y &&
@@ -28,12 +28,27 @@ bool checkEntityCollision(Enemy enemy, ActiveBullet currentBullet) {
     }
 }
 
+bool checkEnemyCollision(Ship ship, ActiveBullet currentBullet) {
+    if(
+        currentBullet.position.y > ship.position.y + ship.height &&
+        currentBullet.position.y + 10 < ship.position.y &&
+        currentBullet.position.x + 10 > ship.position.x &&
+        currentBullet.position.x < ship.position.x + ship.width
+    ) {
+        // std::cout << "Bullet Hit" << std::endl;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 void checkBulletHit(Enemy* enemy, Bullet* bullet) {
     for(int i = 0; i < sizeof(bullet -> activeBullets) / sizeof(bullet -> activeBullets[0]); ++i) {
         ActiveBullet currentBullet = bullet -> activeBullets[i];
 
         if(currentBullet.active) {
-            if(checkEntityCollision(*enemy, currentBullet)) {
+            if(checkEnemyCollision(*enemy, currentBullet)) {
                 enemy -> currentState = enemy -> DESTROYED;
             }
         }
@@ -70,7 +85,7 @@ int main() {
 
     glfwSwapInterval(1);
 
-    double FPS = 60.0;
+    double FPS = 120.0;
 
     double FPSInterval = 1000 / FPS;
 
@@ -111,6 +126,8 @@ int main() {
 
         ship.processInput(window);
 
+        enemy.processInput(window);
+
         double currentFrameTime = glfwGetTime();
 
         double delta = currentFrameTime - lastFrameTime;
@@ -134,6 +151,10 @@ int main() {
         ship.bullet->render();
 
         checkBulletHit(&enemy, ship.bullet);
+
+        if(enemy.currentState != enemy.DESTROYED) {
+            enemy.bullet->render();
+        }
 
         glfwPollEvents();
         glfwSwapBuffers(window);

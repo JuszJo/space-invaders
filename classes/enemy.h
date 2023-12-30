@@ -8,7 +8,7 @@
 
 #include "../libs/shader.h"
 
-#include "../classes/bullet.h"
+#include "../classes/enemyBullet.h"
 
 // #define STB_IMAGE_IMPLEMENTATION
 // #include "../libs/stb_image.h"
@@ -85,18 +85,18 @@ class Enemy {
 
         Shader* myShader;
 
-        // Bullet* bullet;
+        EnemyBullet* bullet;
 
         float sinI = 90.0f;
         float sinOut;
 
-        int shootBuffer = 10;
+        int shootBuffer = 40;
         int elapsedFrames = 0;
 
         Enemy(Shader* shader) {
             myShader = shader;
 
-            // bullet = new Bullet(shader);
+            bullet = new EnemyBullet(shader);
 
             glGenVertexArrays(1, &VAO);
             glGenBuffers(1, &VBO);
@@ -139,6 +139,18 @@ class Enemy {
             if(state == "DESTROYED") {
                 currentState = DESTROYED;
             }
+        }
+
+        void processInput(GLFWwindow* window) {
+            if(elapsedFrames % shootBuffer == 0) {
+                shoot();
+
+                elapsedFrames = 0;
+            }
+
+            ++elapsedFrames;
+            // if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+            // }
         }
 
         // void processInput(GLFWwindow* window) {
@@ -195,6 +207,7 @@ class Enemy {
         };
 
         void shoot() {
+            bullet -> activateBullet(position);
             // bullet -> activateBullet(position);
         };
 
