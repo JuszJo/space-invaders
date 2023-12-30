@@ -93,20 +93,32 @@ class Bullet {
         };
 
         void activateBullet() {
-            std::cout << "bullet activated\n";
+            if(!(currentIndex > 2)) {
+                std::cout << "bullet activated\n";
 
-            ActiveBullet newBullet;
+                ActiveBullet newBullet;
 
-            newBullet.index = currentIndex;
-            newBullet.active = true;
+                newBullet.index = currentIndex;
+                newBullet.active = true;
 
-            activeBullets[currentIndex] = newBullet;
+                activeBullets[currentIndex] = newBullet;
 
-            ++currentIndex;
+                ++currentIndex;
+            }
+        }
+
+        void checkBulletBoundary(ActiveBullet* currentBullet) {
+            if(currentBullet -> position.y > 600) {
+                currentBullet -> active = false;
+                if(currentBullet -> index < currentIndex) {
+                    currentIndex = currentBullet -> index;
+                }
+            }
         }
 
         void update(ActiveBullet* currentBullet) {
             currentBullet -> model = glm::translate(currentBullet -> model, glm::vec3(0.0f, 10.0f, 0.0f));
+            currentBullet -> position += glm::vec3(0.0f, 10.0f, 0.0f);
         }
 
         void render() {
@@ -120,16 +132,18 @@ class Bullet {
                 if(currentBullet -> active) {
                     ++numActive;
 
-                    std::cout << "Num Active: " << numActive << std::endl;
+                    // std::cout << "Num Active: " << numActive << std::endl;
             
                     // std::cout << "model: " << currentBullet.model << std::endl;
 
-                    // update(&currentBullet);
+                    update(currentBullet);
 
-                    currentBullet -> model = glm::translate(currentBullet -> model, glm::vec3(0.0f, 10.0f, 0.0f));
-                    currentBullet -> position += glm::vec3(0.0f, 10.0f, 0.0f);
+                    checkBulletBoundary(currentBullet);
 
-                    std::cout << currentBullet -> position.y << std::endl;
+                    // currentBullet -> model = glm::translate(currentBullet -> model, glm::vec3(0.0f, 10.0f, 0.0f));
+                    // currentBullet -> position += glm::vec3(0.0f, 10.0f, 0.0f);
+
+                    // std::cout << currentBullet -> position.y << std::endl;
 
                     glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(currentBullet -> model));
 
@@ -138,7 +152,7 @@ class Bullet {
                 }
             }
 
-            // std::cout << "Num Active: " << numActive << std::endl;
+            std::cout << "Num Active: " << numActive << std::endl;
 
             // std::cout << curr.active << std::endl;
 
