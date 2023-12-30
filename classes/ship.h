@@ -37,7 +37,8 @@ class Ship {
         enum STATES {
             LEFT,
             RIGHT,
-            IDLE
+            IDLE,
+            OVER
         };
 
         STATES currentState = IDLE;
@@ -92,25 +93,28 @@ class Ship {
                 glfwSetWindowShouldClose(window, true);
             }
 
-            if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-                if(elapsedFrames % shootBuffer == 0) {
-                    shoot();
+            if(currentState != OVER) {
+                if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+                    if(elapsedFrames % shootBuffer == 0) {
+                        shoot();
 
-                    elapsedFrames = 0;
+                        elapsedFrames = 0;
+                    }
+
+                    ++elapsedFrames;
                 }
 
-                ++elapsedFrames;
+                if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+                    currentState = LEFT;
+                }
+                else if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+                    currentState = RIGHT;
+                }
+                else {
+                    currentState = IDLE;
+                }
             }
 
-            if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-                currentState = LEFT;
-            }
-            else if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-                currentState = RIGHT;
-            }
-            else {
-                currentState = IDLE;
-            }
         };
 
         void stateChecker() {
@@ -171,21 +175,25 @@ class Ship {
         };
 
         void render() {
-            // glBindTexture(GL_TEXTURE_2D, TBO);
-            int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
+            if(currentState != OVER) {
+                // glBindTexture(GL_TEXTURE_2D, TBO);
+                int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
 
-            glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+                glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 
-            glBindVertexArray(VAO);
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+                glBindVertexArray(VAO);
+                glDrawArrays(GL_TRIANGLES, 0, 3);
+            }
         };
 
         void update() {
-            stateChecker();
+            if(currentState != OVER) {
+                stateChecker();
 
-            applySpeed();
+                applySpeed();
 
-            checkWallCollision();
+                checkWallCollision();
+            }
         };
 };
 

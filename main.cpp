@@ -63,8 +63,8 @@ void checkPlayerBulletHit(Ship* ship, EnemyBullet* bullet) {
 
         if(currentBullet.active) {
             if(checkPlayerCollision(*ship, currentBullet)) {
-                // enemy -> currentState = enemy -> DESTROYED;
-                std::cout << "PLAYER HIT" << std::endl;
+                // std::cout << "PLAYER HIT" << std::endl;
+                ship -> currentState = ship -> OVER;
             }
         }
     }
