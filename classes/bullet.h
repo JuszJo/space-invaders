@@ -40,10 +40,10 @@ class Bullet {
 
         STATES currentState = IDLE;
 
-        // Shader* myShader;
+        Shader* myShader;
 
-        Bullet() {
-            // myShader = shader;
+        Bullet(Shader* shader) {
+            myShader = shader;
 
             glGenVertexArrays(1, &VAO);
             glGenBuffers(1, &VBO);
@@ -61,9 +61,29 @@ class Bullet {
 
             glBindVertexArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            setPosition();
+        }
+
+        void setPosition() {
+            glm::vec3 newPosition = glm::vec3(100.0f, 0.0f, 0.0f);
+
+            model = glm::translate(model, -position);
+
+            model = glm::translate(model, newPosition);
+
+            position = newPosition;
+        };
+
+        void update() {
+            // model = glm::translate()
         }
 
         void render() {
+            int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
+
+            glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+
             glBindVertexArray(VAO);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         }

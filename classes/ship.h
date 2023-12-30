@@ -44,10 +44,12 @@ class Ship {
 
         Shader* myShader;
 
-        Bullet* bullet = new Bullet;
+        Bullet* bullet;
 
         Ship(Shader* shader) {
             myShader = shader;
+
+            bullet = new Bullet(shader);
 
             glGenVertexArrays(1, &VAO);
             glGenBuffers(1, &VBO);
@@ -143,15 +145,19 @@ class Ship {
         void applySpeed() {
             model = glm::translate(model, speed);
 
-            int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
+            // int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
 
-            glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+            // glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 
             position += speed;
         };
 
         void render() {
             // glBindTexture(GL_TEXTURE_2D, TBO);
+            int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
+
+            glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+
             glBindVertexArray(VAO);
             glDrawArrays(GL_TRIANGLES, 0, 3);
         };
