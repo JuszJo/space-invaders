@@ -13,6 +13,27 @@
 #include "classes/enemy.h"
 #include "classes/bullet.h"
 
+void checkEntityCollision(Enemy enemy, ActiveBullet currentBullet) {
+    if(
+        currentBullet.position.y + 10 > enemy.position.y - enemy.height &&
+        currentBullet.position.y < enemy.position.y &&
+        currentBullet.position.x + 10 > enemy.position.x - enemy.width &&
+        currentBullet.position.x < enemy.position.x
+    ) {
+        std::cout << "Bullet Hit" << std::endl;
+    }
+}
+
+void checkBulletHit(Enemy* enemy, Bullet* bullet) {
+    for(int i = 0; i < sizeof(bullet -> activeBullets) / sizeof(bullet -> activeBullets[0]); ++i) {
+        ActiveBullet currentBullet = bullet -> activeBullets[i];
+
+        if(currentBullet.active) {
+            checkEntityCollision(*enemy, currentBullet);
+        }
+    }
+}
+
 int main() {
     glfwInit();
 
@@ -103,6 +124,8 @@ int main() {
         enemy.render();
 
         ship.bullet->render();
+
+        checkBulletHit(&enemy, ship.bullet);
 
         glfwPollEvents();
         glfwSwapBuffers(window);
