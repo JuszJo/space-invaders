@@ -9,6 +9,8 @@
 
 // #include "../libs/shader.h"
 
+#include "../libs/stb_image.h"
+
 struct ActiveBullet {
     int index;
 
@@ -80,6 +82,13 @@ class Bullet {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             // setPosition();
+        }
+
+        void loadImage(int textWidth, int textHeight, unsigned char* imageData) {
+            glGenTextures(1, &TBO);
+            glBindTexture(GL_TEXTURE_2D, TBO);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textWidth, textHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+            glGenerateMipmap(GL_TEXTURE_2D);
         }
 
         void setPosition(ActiveBullet* currentBullet, glm::vec3 newPosition) {

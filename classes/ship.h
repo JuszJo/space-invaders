@@ -75,14 +75,10 @@ class Ship {
 
             unsigned char* imageData = stbi_load("wall.jpg", &textWidth, &textHeight, &numberOfChannels, 0);
 
-            glGenTextures(1, &TBO);
-            unsigned int* bulletTBO = &bullet -> TBO;
-            glGenTextures(1, bulletTBO);
-            glBindTexture(GL_TEXTURE_2D, TBO);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textWidth, textHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-            glGenerateMipmap(GL_TEXTURE_2D);
+            bullet -> loadImage(textWidth, textHeight, imageData);
 
-            glBindTexture(GL_TEXTURE_2D, *bulletTBO);
+            glGenTextures(1, &TBO);
+            glBindTexture(GL_TEXTURE_2D, TBO);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textWidth, textHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
             glGenerateMipmap(GL_TEXTURE_2D);
 
