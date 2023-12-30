@@ -94,7 +94,7 @@ class Ship {
             }
 
             if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-                // shoot();
+                shoot();
             }
 
             if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
@@ -130,7 +130,9 @@ class Ship {
             }
         };
 
-        void shoot();
+        void shoot() {
+            bullet -> activateBullet();
+        };
 
         void setPosition() {
             glm::vec3 newPosition = glm::vec3(300.0f, 0.0f, 0.0f);
