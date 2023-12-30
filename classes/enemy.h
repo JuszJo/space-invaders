@@ -37,7 +37,8 @@ class Enemy {
         enum STATES {
             LEFT,
             RIGHT,
-            IDLE
+            IDLE,
+            DESTROYED
         };
 
         STATES currentState = IDLE;
@@ -91,6 +92,12 @@ class Enemy {
             model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
         };
+
+        void setState(const char* state) {
+            if(state == "DESTROYED") {
+                currentState = DESTROYED;
+            }
+        }
 
         // void processInput(GLFWwindow* window) {
         //     if(glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
@@ -176,21 +183,23 @@ class Enemy {
         };
 
         void render() {
-            // glBindTexture(GL_TEXTURE_2D, TBO);
-            int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
+            if(currentState != DESTROYED) {
+                // glBindTexture(GL_TEXTURE_2D, TBO);
+                int modelLocation = glGetUniformLocation(myShader -> shaderProgram, "model");
 
-            glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+                glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 
-            glBindVertexArray(VAO);
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+                glBindVertexArray(VAO);
+                glDrawArrays(GL_TRIANGLES, 0, 3);
+            }
         };
 
         void update() {
-            stateChecker();
+            // stateChecker();
 
-            applySpeed();
+            // applySpeed();
 
-            checkWallCollision();
+            // checkWallCollision();
         };
 };
 

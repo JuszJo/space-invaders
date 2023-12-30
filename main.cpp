@@ -13,14 +13,18 @@
 #include "classes/enemy.h"
 #include "classes/bullet.h"
 
-void checkEntityCollision(Enemy enemy, ActiveBullet currentBullet) {
+bool checkEntityCollision(Enemy enemy, ActiveBullet currentBullet) {
     if(
         currentBullet.position.y + 10 > enemy.position.y - enemy.height &&
         currentBullet.position.y < enemy.position.y &&
         currentBullet.position.x + 10 > enemy.position.x - enemy.width &&
         currentBullet.position.x < enemy.position.x
     ) {
-        std::cout << "Bullet Hit" << std::endl;
+        // std::cout << "Bullet Hit" << std::endl;
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
@@ -29,7 +33,9 @@ void checkBulletHit(Enemy* enemy, Bullet* bullet) {
         ActiveBullet currentBullet = bullet -> activeBullets[i];
 
         if(currentBullet.active) {
-            checkEntityCollision(*enemy, currentBullet);
+            if(checkEntityCollision(*enemy, currentBullet)) {
+                enemy -> currentState = enemy -> DESTROYED;
+            }
         }
     }
 }
