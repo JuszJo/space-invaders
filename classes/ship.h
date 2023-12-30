@@ -195,6 +195,18 @@ class Ship {
                 checkWallCollision();
             }
         };
+
+        void reset() {
+            currentState = IDLE;
+
+            glm::vec3 speed = glm::vec3(0.0f, 0.0f, 0.0f);
+
+            setPosition(glm::vec3(300.0f - (width / 2), 0.0f, 0.0f));
+
+            int shootBuffer = 10;
+
+            int elapsedFrames = 0;
+        }
 };
 
 #endif

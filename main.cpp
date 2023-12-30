@@ -135,6 +135,9 @@ int main() {
 
     glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
+    int gameOverBuffer = 100;
+    int elapsedFramesOver = 1;
+
     while(!glfwWindowShouldClose(window)) {
         glClearColor(0.7f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -171,6 +174,16 @@ int main() {
             enemy.bullet->render();
 
             checkPlayerBulletHit(&ship, enemy.bullet);
+        }
+
+        if(ship.currentState == ship.OVER) {
+            if(elapsedFramesOver % gameOverBuffer == 0) {
+                ship.reset();
+
+                elapsedFramesOver = 1;
+            }
+
+            ++elapsedFramesOver;
         }
 
         glfwPollEvents();
