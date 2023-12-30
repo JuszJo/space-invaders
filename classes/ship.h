@@ -84,7 +84,7 @@ class Ship {
 
             stbi_image_free(imageData);
 
-            setPosition(glm::vec3(300.0f, 0.0f, 0.0f));
+            setPosition(glm::vec3(300.0f - (width / 2), 0.0f, 0.0f));
         };
 
         void processInput(GLFWwindow* window) {

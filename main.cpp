@@ -10,6 +10,7 @@
 // #include "libs/stb_image.h"
 
 #include "classes/ship.h"
+#include "classes/enemy.h"
 #include "classes/bullet.h"
 
 int main() {
@@ -54,6 +55,8 @@ int main() {
 
     Ship ship(&shader);
 
+    Enemy enemy(&shader);
+
     // int textWidth, textHeight, numberOfChannels;
 
     // unsigned char* imageData = stbi_load("wall.jpg", &textWidth, &textHeight, &numberOfChannels, 0);
@@ -96,6 +99,8 @@ int main() {
         }
 
         ship.render();
+
+        enemy.render();
 
         ship.bullet->render();
 
