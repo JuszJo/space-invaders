@@ -40,7 +40,9 @@ class EnemyBullet {
 
         glm::mat4 model = glm::mat4(1.0f);
 
-        EnemyActiveBullet activeBullets[3];
+        int maxBullets = 10;
+
+        EnemyActiveBullet activeBullets[10];
         int currentIndex = 0;
 
         float vertices[20] = {
@@ -103,7 +105,7 @@ class EnemyBullet {
         };
 
         void activateBullet(glm::vec3 shipPosition) {
-            if(!(currentIndex > 2)) {
+            if(!(currentIndex > (maxBullets - 1))) {
                 EnemyActiveBullet newBullet;
 
                 setPosition(&newBullet, shipPosition);

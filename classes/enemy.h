@@ -90,7 +90,7 @@ class Enemy {
         float sinI = 90.0f;
         float sinOut;
 
-        int shootBuffer = 40;
+        int shootBuffer = 20;
         int elapsedFrames = 0;
 
         Enemy(Shader* shader) {
@@ -287,7 +287,7 @@ class Enemy {
             float sinI = 90.0f;
             float sinOut;
 
-            shootBuffer = 40;
+            shootBuffer = 20;
 
             elapsedFrames = 0;
         }

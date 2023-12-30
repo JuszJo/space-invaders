@@ -40,6 +40,7 @@ class Bullet {
 
         glm::mat4 model = glm::mat4(1.0f);
 
+        int maxBullets = 3;
         ActiveBullet activeBullets[3];
         int currentIndex = 0;
 
@@ -103,7 +104,7 @@ class Bullet {
         };
 
         void activateBullet(glm::vec3 shipPosition) {
-            if(!(currentIndex > 2)) {
+            if(!(currentIndex > (maxBullets - 1))) {
                 // std::cout << "bullet activated\n";
 
                 ActiveBullet newBullet;
