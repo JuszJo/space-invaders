@@ -44,6 +44,8 @@ class Ship {
 
         Shader* myShader;
 
+        Bullet* bullet = new Bullet;
+
         Ship(Shader* shader) {
             myShader = shader;
 
@@ -64,16 +66,22 @@ class Ship {
             glBindVertexArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-            // int textWidth, textHeight, numberOfChannels;
+            int textWidth, textHeight, numberOfChannels;
 
-            // unsigned char* imageData = stbi_load("../wall.jpg", &textWidth, &textHeight, &numberOfChannels, 0);
+            unsigned char* imageData = stbi_load("wall.jpg", &textWidth, &textHeight, &numberOfChannels, 0);
 
-            // glGenTextures(1, &TBO);
-            // glBindTexture(GL_TEXTURE_2D, TBO);
-            // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textWidth, textHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-            // glGenerateMipmap(GL_TEXTURE_2D);
+            glGenTextures(1, &TBO);
+            unsigned int* bulletTBO = &bullet -> TBO;
+            glGenTextures(1, bulletTBO);
+            glBindTexture(GL_TEXTURE_2D, TBO);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textWidth, textHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+            glGenerateMipmap(GL_TEXTURE_2D);
 
-            // stbi_image_free(imageData);
+            glBindTexture(GL_TEXTURE_2D, *bulletTBO);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textWidth, textHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            stbi_image_free(imageData);
 
             setPosition();
         };

@@ -54,16 +54,16 @@ int main() {
 
     Ship ship(&shader);
 
-    int textWidth, textHeight, numberOfChannels;
+    // int textWidth, textHeight, numberOfChannels;
 
-    unsigned char* imageData = stbi_load("wall.jpg", &textWidth, &textHeight, &numberOfChannels, 0);
+    // unsigned char* imageData = stbi_load("wall.jpg", &textWidth, &textHeight, &numberOfChannels, 0);
 
-    glGenTextures(1, &ship.TBO);
-    glBindTexture(GL_TEXTURE_2D, ship.TBO);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textWidth, textHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    // glGenTextures(1, &ship.TBO);
+    // glBindTexture(GL_TEXTURE_2D, ship.TBO);
+    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textWidth, textHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+    // glGenerateMipmap(GL_TEXTURE_2D);
 
-    stbi_image_free(imageData);
+    // stbi_image_free(imageData);
 
     shader.use();
 
@@ -96,6 +96,8 @@ int main() {
         }
 
         ship.render();
+
+        ship.bullet->render();
 
         glfwPollEvents();
         glfwSwapBuffers(window);
