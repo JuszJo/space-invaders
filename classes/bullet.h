@@ -95,7 +95,7 @@ class Bullet {
 
         void activateBullet(glm::vec3 shipPosition) {
             if(!(currentIndex > 2)) {
-                std::cout << "bullet activated\n";
+                // std::cout << "bullet activated\n";
 
                 ActiveBullet newBullet;
 
@@ -155,7 +155,7 @@ class Bullet {
                 }
             }
 
-            std::cout << "Num Active: " << numActive << std::endl;
+            // std::cout << "Num Active: " << numActive << std::endl;
 
             // std::cout << curr.active << std::endl;
 

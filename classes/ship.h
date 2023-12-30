@@ -87,7 +87,7 @@ class Ship {
 
             stbi_image_free(imageData);
 
-            setPosition();
+            setPosition(glm::vec3(300.0f, 0.0f, 0.0f));
         };
 
         void processInput(GLFWwindow* window) {
@@ -142,15 +142,26 @@ class Ship {
             bullet -> activateBullet(position);
         };
 
-        void setPosition() {
-            glm::vec3 newPosition = glm::vec3(300.0f, 0.0f, 0.0f);
-
+        void setPosition(glm::vec3 newPosition) {
             model = glm::translate(model, -position);
 
             model = glm::translate(model, newPosition);
 
             position = newPosition;
         };
+
+        void checkWallCollision() {
+            if(position.x < 0) {
+                glm::vec3 newPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+
+                setPosition(newPosition);
+            }
+            if(position.x + width > 600) {
+                glm::vec3 newPosition = glm::vec3(600.0f - width, 0.0f, 0.0f);
+
+                setPosition(newPosition);
+            }
+        }
 
         void applySpeed() {
             model = glm::translate(model, speed);
@@ -176,6 +187,8 @@ class Ship {
             stateChecker();
 
             applySpeed();
+
+            checkWallCollision();
         };
 };
 
