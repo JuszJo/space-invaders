@@ -46,6 +46,8 @@ class Ship {
 
         Bullet* bullet;
 
+        int shootBuffer = 0;
+
         Ship(Shader* shader) {
             myShader = shader;
 
@@ -94,7 +96,13 @@ class Ship {
             }
 
             if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-                shoot();
+                if(shootBuffer % 5 == 0) {
+                    shoot();
+
+                    shootBuffer = 0;
+                }
+
+                ++shootBuffer;
             }
 
             if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
