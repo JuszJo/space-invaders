@@ -82,21 +82,24 @@ class Bullet {
             // setPosition();
         }
 
-        void setPosition() {
-            glm::vec3 newPosition = glm::vec3(100.0f, 0.0f, 0.0f);
+        void setPosition(ActiveBullet* currentBullet, glm::vec3 newPosition) {
+            currentBullet -> model = glm::translate(currentBullet -> model, -position);
 
-            model = glm::translate(model, -position);
+            newPosition.x = (newPosition.x + 25) - (width / 2);
+            newPosition.y += 40;
 
-            model = glm::translate(model, newPosition);
+            currentBullet -> model = glm::translate(currentBullet -> model, newPosition);
 
-            position = newPosition;
+            currentBullet -> position = newPosition;
         };
 
-        void activateBullet() {
+        void activateBullet(glm::vec3 shipPosition) {
             if(!(currentIndex > 2)) {
                 std::cout << "bullet activated\n";
 
                 ActiveBullet newBullet;
+
+                setPosition(&newBullet, shipPosition);
 
                 newBullet.index = currentIndex;
                 newBullet.active = true;

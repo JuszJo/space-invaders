@@ -139,7 +139,7 @@ class Ship {
         };
 
         void shoot() {
-            bullet -> activateBullet();
+            bullet -> activateBullet(position);
         };
 
         void setPosition() {
