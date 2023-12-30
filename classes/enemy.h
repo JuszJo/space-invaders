@@ -237,9 +237,9 @@ class Enemy {
 
                 glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 
-                if(currentState == RIGHT) {
-                    std::cout << "RIGHT" << std::endl;
-                }
+                // if(currentState == RIGHT) {
+                //     std::cout << "RIGHT" << std::endl;
+                // }
 
                 glBindVertexArray(VAO);
                 glDrawArrays(GL_TRIANGLES, 0, 3);
