@@ -176,6 +176,16 @@ int main() {
             checkPlayerBulletHit(&ship, enemy.bullet);
         }
 
+        if(enemy.currentState == enemy.DESTROYED) {
+            if(elapsedFramesOver % gameOverBuffer == 0) {
+                enemy.reset();
+
+                elapsedFramesOver = 1;
+            }
+
+            ++elapsedFramesOver;
+        }
+
         if(ship.currentState == ship.OVER) {
             if(elapsedFramesOver % gameOverBuffer == 0) {
                 ship.reset();

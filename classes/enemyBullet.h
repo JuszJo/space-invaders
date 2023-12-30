@@ -153,6 +153,16 @@ class EnemyBullet {
                 }
             }
         }
+
+        void reset() {
+            for(int i = 0; i < sizeof(activeBullets) / sizeof(activeBullets[0]); ++i) {
+                EnemyActiveBullet* currentBullet = &activeBullets[i];
+
+                currentBullet -> active = false;
+            }
+
+            currentIndex = 0;
+        }
 };
 
 #endif

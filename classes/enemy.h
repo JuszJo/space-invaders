@@ -142,13 +142,15 @@ class Enemy {
         }
 
         void processInput(GLFWwindow* window) {
-            if(elapsedFrames % shootBuffer == 0) {
-                shoot();
+            if(currentState != DESTROYED) {
+                if(elapsedFrames % shootBuffer == 0) {
+                    shoot();
 
-                elapsedFrames = 0;
+                    elapsedFrames = 0;
+                }
+
+                ++elapsedFrames;
             }
-
-            ++elapsedFrames;
             // if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
             // }
         }
@@ -276,6 +278,19 @@ class Enemy {
             }
             // checkWallCollision();
         };
+
+        void reset() {
+            bullet -> reset();
+
+            currentState = IDLE;
+
+            float sinI = 90.0f;
+            float sinOut;
+
+            shootBuffer = 40;
+
+            elapsedFrames = 0;
+        }
 };
 
 #endif
