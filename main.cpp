@@ -17,8 +17,8 @@ bool checkEntityCollision(Enemy enemy, ActiveBullet currentBullet) {
     if(
         currentBullet.position.y + 10 > enemy.position.y - enemy.height &&
         currentBullet.position.y < enemy.position.y &&
-        currentBullet.position.x + 10 > enemy.position.x - enemy.width &&
-        currentBullet.position.x < enemy.position.x
+        currentBullet.position.x + 10 > enemy.position.x &&
+        currentBullet.position.x < enemy.position.x + enemy.width
     ) {
         // std::cout << "Bullet Hit" << std::endl;
         return true;
